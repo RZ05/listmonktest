@@ -64,3 +64,15 @@ networks:
 
 volumes:
   listmonk-data:
+
+  jobs:
+  test:    
+    steps:      
+      - name: Download Scantist-Bom-Detect
+        run: curl -s https://download.scantist.io/scantist-bom-detect.jar --output scantist-bom-detect.jar
+      
+      - name: Upload to Scantist 
+        env: # Setting the Token
+          SCANTISTTOKEN: ${{secrets.SCANTISTTOKEN }}
+          #SCANTIST_IMPORT_URL : "https://192.xxx.xxx.xx:8237/ci-scan/" #add this line if you are setting up on a dedicated scantist server
+        run: java -jar scantist-bom-detect.jar
